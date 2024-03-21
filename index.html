@@ -112,8 +112,6 @@
     const COLOR_BACK = "#000000";
     const TEXT_SHADOW = "5px 5px 5px gray";
     const TEXT_STROKE = "2px red";
-    const GRADIENT_LINEAR = "linear-gradient(to right, white, black)";
-    const GRADIENT_RADIAL = "radial-gradient(white, black)";
     const AUDIO = document.querySelector('audio');
     let nIntervalID = null;
 
@@ -140,12 +138,16 @@
     function changeColorFore(event) {
         clock.style.color = event.target.value;
         fore_rgb.value = event.target.value;
-        fore_color.checked = true;
     }
     function changeColorBack(event) {
         clock.style.backgroundColor = event.target.value;
         back_rgb.value = event.target.value;
-        back_color.checked = true;
+        if (back_image_linear.checked) {
+            clock.style.backgroundImage = gradientLinear();
+        }
+        if (back_image_radial.checked) {
+            clock.style.backgroundImage = gradientRadial();
+        }
     }
     function clickRadioFore(event) {
         if (event.target.id == "fore_auto") {
@@ -179,12 +181,12 @@
         }
         if (event.target.id == "back_image_linear") {
             if (this.checked) {
-                clock.style.backgroundImage = GRADIENT_LINEAR;
+                clock.style.backgroundImage = gradientLinear();
             }
         }
         if (event.target.id == "back_image_radial") {
             if (this.checked) {
-                clock.style.backgroundImage = GRADIENT_RADIAL;
+                clock.style.backgroundImage = gradientRadial();
             }
         }
     }
@@ -247,6 +249,13 @@
         }
         pad = ('0'.repeat(digit - len) + String(num)).slice(-1 * digit);
         return pad;
+    }
+    // グラデーション
+    function gradientLinear() {
+        return `linear-gradient(to right, white, ${back_rgb.value})`;
+    }
+    function gradientRadial() {
+        return `radial-gradient(white, ${back_rgb.value})`;
     }
 
     // 初期化
