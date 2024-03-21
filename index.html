@@ -39,6 +39,7 @@
         }
         #clock {
             display: flex;
+            flex-direction: column;
             /* 文字を中央に */
             justify-content: center;
             align-items: center;
@@ -49,9 +50,17 @@
             height: 100vh;
             /* 文字を指定 */
             font-family: "Impact";
-            font-size: 12vw;
+            /* font-size: 12vw; */
             /* 遷移 */
             transition: all 1s linear;
+        }
+        #date {
+            /* 日付15文字 */
+            font-size: calc(100vw / (15 / 2));
+        }
+        #time {
+            /* 時間8文字 */
+            font-size: calc(100vw / (8 / 2));
         }
     </style>
 </head>
@@ -87,7 +96,10 @@
             </ul>
         </div>
     </div>
-    <div id="clock"></div>
+    <div id="clock">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
     <audio preload="auto" loop>
         <source src="countdown24.mp3" />
     </audio>
@@ -258,14 +270,15 @@
     // 日時設定
     function setNow() {
         let now = new Date();
-        let date = padding(now.getFullYear(), 4)
+        let date_string = padding(now.getFullYear(), 4)
             + SEP_DATE + padding(now.getMonth() + 1, 2)
             + SEP_DATE + padding(now.getDate(), 2);
-        let time = padding(now.getHours(), 2)
+        let time_string = padding(now.getHours(), 2)
             + SEP_TIME + padding(now.getMinutes(), 2)
             + SEP_TIME + padding(now.getSeconds(), 2);
         let weekday = WEEKDAY[now.getDay()];
-        clock.innerHTML = date + "(" + weekday + ")<BR>" + time;
+        date.innerHTML = date_string + "(" + weekday + ")";
+        time.innerHTML = time_string;
     }
 
     // メイン
